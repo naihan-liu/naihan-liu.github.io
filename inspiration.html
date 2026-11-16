@@ -254,6 +254,11 @@ const ARTWORKS = [
     title: "", artist: SARGENT, year: "", museum: ORSAY, city: PARIS, country: "FR" },
   { image: "inspiration/grand-palais-figure-dark.jpg", photo: "inspiration/grand-palais-figure-dark-wall.jpg", ratio: 0.732,
     title: "", artist: "", year: "", museum: { en: "Grand Palais", zh: "巴黎大皇宫", fr: "Grand Palais" }, city: PARIS, country: "FR" },
+  { image: "inspiration/versailles-chateau-gardens-1672.jpg", photo: "inspiration/versailles-chateau-gardens-1672-wall.jpg", ratio: 1.338,
+    title: { en: "View of the Château de Versailles from the Gardens", zh: "从花园望凡尔赛宫", fr: "Vue du château de Versailles, du côté des jardins" }, artist: { en: "Anonymous", zh: "佚名", fr: "Anonyme" },
+    year: "c. 1672", museum: { en: "Palace of Versailles", zh: "凡尔赛宫", fr: "Château de Versailles" }, city: { en: "Versailles", zh: "凡尔赛", fr: "Versailles" }, country: "FR" },
+  { image: "inspiration/cafe-woman-red-banquette.jpg", photo: "inspiration/cafe-woman-red-banquette-wall.jpg", ratio: 0.794,
+    title: "", artist: "", year: "", museum: "", city: "", country: "" },
 ];
 
 const NAME = "Naihan Liu", EMAIL = "naihannn.liu@gmail.com";
@@ -380,8 +385,8 @@ function hideTip(){ tip.classList.remove('on'); }
 
 // ---------- counts ----------
 function renderCounts(){
-  const n = new Set(ARTWORKS.map(a => key(a.museum)+'|'+key(a.city))).size;
-  const c = new Set(ARTWORKS.map(a => key(a.country))).size;
+  const n = new Set(ARTWORKS.filter(a => key(a.museum)).map(a => key(a.museum)+'|'+key(a.city))).size;
+  const c = new Set(ARTWORKS.filter(a => a.country).map(a => key(a.country))).size;
   $('counts').innerHTML = [[ARTWORKS.length, UI.works],[n, UI.museums],[c, UI.countries]]
     .map(([v,l]) => `<div><strong>${v}</strong>${t(l)}</div>`).join('');
 }
