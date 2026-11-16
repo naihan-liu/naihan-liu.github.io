@@ -161,6 +161,7 @@ const ORANGERIE = { en: "Musée de l'Orangerie", zh: "橘园美术馆", fr: "Mus
 const RENOIR = { en: "Pierre-Auguste Renoir", zh: "皮埃尔-奥古斯特·雷诺阿", fr: "Pierre-Auguste Renoir" };
 const ORSAY = { en: "Musée d'Orsay", zh: "奥赛博物馆", fr: "Musée d'Orsay" };
 const BEIJING = { en: "Beijing", zh: "北京", fr: "Pékin" };
+const DEGAS = { en: "Edgar Degas", zh: "埃德加·德加", fr: "Edgar Degas" };
 const ARTWORKS = [
   { image: "inspiration/munch-red-virginia-creeper.jpg", photo: "inspiration/munch-red-virginia-creeper-wall.jpg", ratio: 1.014,
     title: { en: "Red Virginia Creeper", zh: "红色爬山虎", fr: "Vigne vierge rouge" }, artist: { en: "Edvard Munch", zh: "爱德华·蒙克", fr: "Edvard Munch" },
@@ -199,7 +200,7 @@ const ARTWORKS = [
     title: { en: "Blonde Woman with a Rose", zh: "戴玫瑰的金发女子", fr: "Femme blonde à la rose" }, artist: RENOIR,
     year: "", museum: ORANGERIE, city: PARIS, country: "FR" },
   { image: "inspiration/degas-blue-dancers.jpg", photo: "inspiration/degas-blue-dancers-wall.jpg", ratio: 0.846,
-    title: { en: "Blue Dancers", zh: "蓝色舞者", fr: "Danseuses bleues" }, artist: { en: "Edgar Degas", zh: "埃德加·德加", fr: "Edgar Degas" },
+    title: { en: "Blue Dancers", zh: "蓝色舞者", fr: "Danseuses bleues" }, artist: DEGAS,
     year: "c. 1893", museum: ORSAY, city: PARIS, country: "FR" },
   { image: "inspiration/toorop-hetaera.jpg", photo: "inspiration/toorop-hetaera-wall.jpg", ratio: 1.628,
     title: { en: "Hetaera (Venus of the Sea)", zh: "交际花（海之维纳斯）", fr: "Hétaïre (Vénus de la mer)" }, artist: { en: "Jan Toorop", zh: "扬·托罗普", fr: "Jan Toorop" },
@@ -212,6 +213,21 @@ const ARTWORKS = [
     year: "c. 1897", museum: ORANGERIE, city: PARIS, country: "FR" },
   { image: "inspiration/berlin-woman-yellow-gown.jpg", photo: "inspiration/berlin-woman-yellow-gown-wall.jpg", ratio: 0.863,
     title: "", artist: "", year: "", museum: ANG, city: BERLIN, country: "DE" },
+  { image: "inspiration/goya-milkmaid-bordeaux.jpg", photo: "inspiration/goya-milkmaid-bordeaux-wall.jpg", ratio: 0.939,
+    title: { en: "The Milkmaid of Bordeaux", zh: "波尔多的挤奶女工", fr: "La Laitière de Bordeaux" }, artist: { en: "Francisco de Goya", zh: "弗朗西斯科·戈雅", fr: "Francisco de Goya" },
+    year: "c. 1825–1827", museum: { en: "Museo del Prado", zh: "普拉多博物馆", fr: "Musée du Prado" }, city: { en: "Madrid", zh: "马德里", fr: "Madrid" }, country: "ES" },
+  { image: "inspiration/sargent-madame-x.jpg", photo: "inspiration/sargent-madame-x-wall.jpg", ratio: 0.498,
+    title: { en: "Madame X (Madame Pierre Gautreau)", zh: "X 夫人（皮埃尔·戈特罗夫人）", fr: "Madame X (Madame Pierre Gautreau)" }, artist: { en: "John Singer Sargent", zh: "约翰·辛格·萨金特", fr: "John Singer Sargent" },
+    year: "1883–1884", museum: ORSAY, city: PARIS, country: "FR",
+    note: { en: "Seen at the Musée d'Orsay's Sargent exhibition, on loan from The Met.", zh: "在奥赛博物馆的萨金特特展上看到，由大都会艺术博物馆借展。", fr: "Vu à l'exposition Sargent du musée d'Orsay, prêt du Metropolitan Museum of Art." } },
+  { image: "inspiration/degas-three-dancers.jpg", photo: "inspiration/degas-three-dancers-wall.jpg", ratio: 0.867,
+    title: { en: "Three Dancers", zh: "三位舞者", fr: "Trois danseuses" }, artist: DEGAS,
+    year: "", museum: ORSAY, city: PARIS, country: "FR" },
+  { image: "inspiration/martinez-de-la-vega-dolorosa.jpg", photo: "inspiration/martinez-de-la-vega-dolorosa-wall.jpg", ratio: 0.617,
+    title: { en: "Our Lady of Sorrows (Dolorosa)", zh: "悲伤圣母（Dolorosa）", fr: "Dolorosa" }, artist: { en: "Joaquín Martínez de la Vega", zh: "华金·马丁内斯·德拉维加", fr: "Joaquín Martínez de la Vega" },
+    year: "", museum: { en: "Museo Casa Natal Picasso", zh: "毕加索故居博物馆", fr: "Musée Maison natale de Picasso" }, city: { en: "Málaga", zh: "马拉加", fr: "Malaga" }, country: "ES" },
+  { image: "inspiration/petit-palais-woman-piano.jpg", photo: "inspiration/petit-palais-woman-piano-wall.jpg", ratio: 0.769,
+    title: "", artist: "", year: "", museum: { en: "Petit Palais", zh: "小皇宫博物馆", fr: "Petit Palais" }, city: PARIS, country: "FR" },
 ];
 
 const NAME = "Naihan Liu", EMAIL = "naihannn.liu@gmail.com";
@@ -283,6 +299,9 @@ function pack(W, base, commit){
     const target = base * (.7 + R()*.6);                      // varied row heights
     let row = [], sum = 0;
     while (i < ARTWORKS.length && (sum * target < W || row.length < 2)){ row.push(i); sum += ARTWORKS[i].ratio || 1; i++; }
+    // don't leave a short orphan row at the end: fold the leftovers into this row
+    const rest = ARTWORKS.slice(i).reduce((t, a) => t + (a.ratio || 1), 0);
+    if (rest > 0 && rest * target < W * .6){ while (i < ARTWORKS.length){ row.push(i); sum += ARTWORKS[i].ratio || 1; i++; } }
     const last = i >= ARTWORKS.length && sum * target < W * .7;
     const h = last ? target : W / sum;
     let x = last ? (W - sum*h)/2 : 0;
