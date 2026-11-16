@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspiration — Naihan Liu</title>
+<meta name="description" content="Paintings Naihan Liu has photographed in museums around the world.">
+<link rel="canonical" href="https://naihan-liu.github.io/inspiration.html">
+<meta property="og:title" content="Inspiration — Naihan Liu">
+<meta property="og:url" content="https://naihan-liu.github.io/inspiration.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* This page is always dark */
+  :root[data-theme="dark"]{--paper:#050506;--card:#141518}
+  header{background:linear-gradient(var(--paper) 40%,transparent)}
+  .theme-btn{display:none}
+
+  /* ============ Collage wall ============ */
+  .wall-wrap{padding:110px var(--edge) 40px}
+  .wall{position:relative;width:100%;
+        -webkit-mask-image:radial-gradient(ellipse 75% 70% at 50% 50%,#000 72%,transparent 100%);
+                mask-image:radial-gradient(ellipse 75% 70% at 50% 50%,#000 72%,transparent 100%)}
+  .tile{position:absolute;display:block;padding:0;border:0;background:#111;cursor:zoom-in;overflow:hidden;
+        filter:brightness(.62) saturate(.9);
+        transform:translate(var(--dx),var(--dy)) scale(var(--s));
+        opacity:0;transition:opacity 1.2s var(--ease),transform .7s var(--ease),filter .5s var(--ease),box-shadow .5s}
+  .wall.ready .tile{opacity:1}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile .ph{width:100%;height:100%}
+  .tile:hover,.tile:focus-visible{z-index:300!important;filter:none;
+        transform:translate(var(--dx),var(--dy)) scale(calc(var(--s) * 1.06));box-shadow:0 30px 60px rgba(0,0,0,.7)}
+
+  /* cursor spotlight */
+  .spotlight{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;transition:opacity 1.1s ease;--x:50vw;--y:50vh;
+             background:radial-gradient(circle 260px at var(--x) var(--y),rgba(0,0,0,0) 0,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
+  .spotlight.on{opacity:1}
+  .tip{position:fixed;z-index:60;pointer-events:none;padding:8px 12px;background:rgba(10,10,12,.82);backdrop-filter:blur(6px);
+       color:#f2f4f7;font-size:12px;letter-spacing:.06em;line-height:1.5;border-radius:3px;opacity:0;transform:translate(14px,14px);
+       transition:opacity .25s;max-width:280px}
+  .tip.on{opacity:1}
+  .tip i{font-style:italic}
+  :lang(zh) .tip i{font-style:normal}
+  .tip span{display:block;opacity:.6;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+
+  /* caption under the wall */
+  .outro{padding:10px var(--edge) 110px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px 60px;align-items:end}
+  .outro h1{font-size:clamp(28px,3.4vw,46px);font-weight:300;letter-spacing:.02em;line-height:1.15;margin:12px 0 18px}
+  :lang(zh) .outro h1{letter-spacing:.06em;line-height:1.35}
+  .outro p{font-size:16px;line-height:1.8;color:var(--ink-soft);max-width:60ch}
+  .counts{display:flex;gap:clamp(24px,4vw,56px)}
+  .counts div{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .counts strong{display:block;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--ink);margin-bottom:4px}
+  .outro .hint{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;margin-top:22px}
+
+  /* ============ Lightbox ============ */
+  .lb{position:fixed;inset:0;z-index:90;background:rgba(5,5,6,.96);color:#f2f4f7;display:grid;grid-template-rows:1fr auto;
+      opacity:0;pointer-events:none;transition:opacity .4s}
+  .lb.open{opacity:1;pointer-events:auto}
+  .lb-stage{position:relative;display:grid;place-items:center;padding:60px 70px 10px;min-height:0}
+  .lb-stage img{max-width:100%;max-height:calc(100svh - 190px);object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .lb-stage .ph{width:min(60vw,520px);max-height:100%}
+  .lb-cap{text-align:center;padding:16px 20px 30px}
+  .lb-cap .t{font-size:20px;font-style:italic}
+  :lang(zh) .lb-cap .t{font-style:normal}
+  .lb-cap .a{font-size:14px;opacity:.7;margin-top:4px}
+  .lb-cap .n{font-size:15px;opacity:.85;max-width:60ch;margin:12px auto 0;line-height:1.7}
+  .lb-cap .m{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-top:10px}
+  .lb button{position:absolute;background:none;border:0;color:#f2f4f7;cursor:pointer;opacity:.7;transition:opacity .3s}
+  .lb button:hover{opacity:1}
+  .lb-close{top:18px;right:20px;font:inherit;font-size:12px;letter-spacing:.14em}
+  .lb-prev,.lb-next{top:50%;transform:translateY(-50%);padding:20px}
+  .lb-prev{left:10px}.lb-next{right:10px}
+  .lb-prev svg,.lb-next svg{width:14px;height:42px}
+  .lb-count{position:absolute;top:22px;left:24px;font-size:12px;letter-spacing:.14em;opacity:.6}
+
+  @media (max-width:760px){
+    .wall-wrap{padding-top:90px}
+    .outro{grid-template-columns:1fr}
+    .lb-stage{padding:56px 12px 6px}
+    .lb-prev,.lb-next{display:none}
+  }
+  @media (hover:none){ .tile{filter:brightness(.85)} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip"></a>
+
+<header>
+  <a class="logo" href="index.html"></a>
+  <nav>
+    <div class="links">
+      <a href="index.html#work" data-i18n="work"></a>
+      <a href="index.html#experience" data-i18n="experience"></a>
+      <a href="index.html#about" data-i18n="about"></a>
+      <a href="index.html#contact" data-i18n="contact"></a>
+      <a href="inspiration.html" class="active" data-i18n="inspiration"></a>
+    </div>
+    <div class="social" id="social"></div>
+    <div class="lang" role="group" aria-label="Language"></div>
+    <button class="theme-btn" id="themeBtn" aria-hidden="true" tabindex="-1"></button>
+    <button class="menu-btn" id="menuBtn" data-i18n="menu"></button>
+  </nav>
+</header>
+
+<div class="drawer" id="drawer">
+  <button id="closeBtn" data-i18n="close"></button>
+  <a href="index.html#work" data-i18n="work"></a><a href="index.html#experience" data-i18n="experience"></a><a href="index.html#about" data-i18n="about"></a><a href="index.html#contact" data-i18n="contact"></a><a href="inspiration.html" data-i18n="inspiration"></a>
+  <div class="lang" role="group" aria-label="Language"></div>
+</div>
+
+<div class="spotlight" id="spot"></div>
+<div class="tip" id="tip"></div>
+
+<main id="main">
+  <section class="wall-wrap"><div class="wall" id="wall"></div></section>
+  <section class="outro">
+    <div>
+      <p class="label" data-i18n="label"></p>
+      <h1 data-i18n-html="title"></h1>
+      <p data-i18n="lede"></p>
+      <p class="hint" data-i18n="hint"></p>
+    </div>
+    <div class="counts" id="counts"></div>
+  </section>
+</main>
+
+<footer>
+  <span id="copy"></span>
+  <div class="row" id="footSocial"></div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Artwork">
+  <div class="lb-stage" id="lbStage"></div>
+  <div class="lb-cap" id="lbCap"></div>
+  <span class="lb-count" id="lbCount"></span>
+  <button class="lb-close" id="lbClose"></button>
+  <button class="lb-prev" id="lbPrev" aria-label="Previous"><svg viewBox="0 0 14 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 1 2 21l10 20"/></svg></button>
+  <button class="lb-next" id="lbNext" aria-label="Next"><svg viewBox="0 0 14 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="m2 1 10 20L2 41"/></svg></button>
+</div>
+
+<script>
+/* =====================================================================
+   ✏️  ARTWORKS — add one entry per photo.
+   image:  "inspiration/filename.jpg"   ratio: width / height of the photo
+   Any text can be a plain string or { en: "...", zh: "...", fr: "..." }.
+   note (optional): a line about why you love it — shown in the enlarged view.
+   The placeholders below (no image) only exist so the layout can be previewed.
+   ===================================================================== */
+const MUNCH = { en: "MUNCH", zh: "蒙克美术馆", fr: "MUNCH" };
+const OSLO = { en: "Oslo", zh: "奥斯陆", fr: "Oslo" };
+const KMSKA = { en: "KMSKA", zh: "安特卫普皇家美术馆", fr: "KMSKA" };
+const ANTWERP = { en: "Antwerp", zh: "安特卫普", fr: "Anvers" };
+const ANG = { en: "Alte Nationalgalerie", zh: "柏林老国家美术馆", fr: "Alte Nationalgalerie" };
+const BERLIN = { en: "Berlin", zh: "柏林", fr: "Berlin" };
+const ENSOR = { en: "James Ensor", zh: "詹姆斯·恩索尔", fr: "James Ensor" };
+const ARTWORKS = [
+  { image: "inspiration/munch-red-virginia-creeper.jpg", photo: "inspiration/munch-red-virginia-creeper-wall.jpg", ratio: 1.014,
+    title: { en: "Red Virginia Creeper", zh: "红色爬山虎", fr: "Vigne vierge rouge" }, artist: { en: "Edvard Munch", zh: "爱德华·蒙克", fr: "Edvard Munch" },
+    year: "1898–1900", museum: MUNCH, city: OSLO, country: "NO" },
+  { image: "inspiration/ensor-oyster-eater.jpg", photo: "inspiration/ensor-oyster-eater-wall.jpg", ratio: 0.697,
+    title: { en: "The Oyster Eater", zh: "吃牡蛎的女人", fr: "La Mangeuse d'huîtres" }, artist: ENSOR,
+    year: "1882", museum: KMSKA, city: ANTWERP, country: "BE" },
+  { image: "inspiration/muller-snow-white.jpg", photo: "inspiration/muller-snow-white-wall.jpg", ratio: 1.628,
+    title: { en: "Snow White and the Seven Dwarfs", zh: "白雪公主与七个小矮人", fr: "Blanche-Neige et les sept nains" }, artist: { en: "Victor Müller", zh: "维克多·穆勒", fr: "Victor Müller" },
+    year: "1870", museum: ANG, city: BERLIN, country: "DE" },
+  { image: "inspiration/ensor-chinoiseries.jpg", photo: "inspiration/ensor-chinoiseries-wall.jpg", ratio: 1.295,
+    title: { en: "Still Life with Chinoiseries", zh: "有中国风器物的静物", fr: "Nature morte aux chinoiseries" }, artist: ENSOR,
+    year: "1906", museum: KMSKA, city: ANTWERP, country: "BE" },
+  { image: "inspiration/munch-anxiety.jpg", photo: "inspiration/munch-anxiety-wall.jpg", ratio: 0.779,
+    title: { en: "Anxiety", zh: "焦虑", fr: "L'Angoisse" }, artist: { en: "Edvard Munch", zh: "爱德华·蒙克", fr: "Edvard Munch" },
+    year: "1894", museum: MUNCH, city: OSLO, country: "NO" },
+  { image: "inspiration/ury-nollendorfplatz.jpg", photo: "inspiration/ury-nollendorfplatz-wall.jpg", ratio: 0.725,
+    title: { en: "Nollendorfplatz at Night", zh: "夜晚的诺伦多夫广场", fr: "Nollendorfplatz la nuit" }, artist: { en: "Lesser Ury", zh: "莱塞·乌里", fr: "Lesser Ury" },
+    year: "", museum: ANG, city: BERLIN, country: "DE" },
+  { image: "inspiration/ensor-harbour.jpg", photo: "inspiration/ensor-harbour-wall.jpg", ratio: 1.257,
+    title: { en: "Harbour", zh: "港口", fr: "Le Port" }, artist: ENSOR,
+    year: "", museum: KMSKA, city: ANTWERP, country: "BE" },
+];
+
+const NAME = "Naihan Liu", EMAIL = "naihannn.liu@gmail.com";
+const UI = {
+  title_tag: { en: "Inspiration — Naihan Liu", zh: "灵感 — Naihan Liu", fr: "Inspiration — Naihan Liu" },
+  skip: { en: "Skip to content", zh: "跳到正文", fr: "Aller au contenu" },
+  work: { en: "work", zh: "作品", fr: "projets" },
+  experience: { en: "experience", zh: "经历", fr: "parcours" },
+  about: { en: "about", zh: "关于", fr: "à propos" },
+  contact: { en: "contact", zh: "联系", fr: "contact" },
+  inspiration: { en: "inspiration", zh: "灵感", fr: "inspiration" },
+  menu: { en: "menu", zh: "菜单", fr: "menu" },
+  close: { en: "close", zh: "关闭", fr: "fermer" },
+  label: { en: "Inspiration", zh: "灵感", fr: "Inspiration" },
+  title: { en: "Paintings I've travelled for.", zh: "那些让我专程奔赴的画。", fr: "Les tableaux pour lesquels j'ai voyagé." },
+  lede: { en: "I've always loved museums. These are paintings I've seen in person in museums around the world, all photographed by me. They shape how I think about colour, composition and storytelling — and, in the end, about brands.",
+          zh: "我一直很爱逛博物馆。这里是我在世界各地的博物馆亲眼看过、亲手拍下的画。它们影响着我对色彩、构图和叙事的理解，最终也影响着我对品牌的理解。",
+          fr: "J'aime les musées depuis toujours. Voici des tableaux que j'ai vus de mes propres yeux dans des musées du monde entier, tous photographiés par moi-même. Ils nourrissent ma façon de penser la couleur, la composition et la narration — et, au fond, les marques." },
+  hint: { en: "Move your cursor over the wall · click any painting to enlarge", zh: "移动鼠标探索 · 点击任意一幅画查看大图", fr: "Déplacez le curseur sur le mur · cliquez sur un tableau pour l'agrandir" },
+  hintTouch: { en: "Tap any painting to enlarge", zh: "点击任意一幅画查看大图", fr: "Touchez un tableau pour l'agrandir" },
+  works: { en: "works", zh: "幅作品", fr: "œuvres" },
+  museums: { en: "museums", zh: "座博物馆", fr: "musées" },
+  countries: { en: "countries", zh: "个国家", fr: "pays" },
+};
+/* ===================================================================== */
+
+const LANGS = [['en','EN','en'],['zh','中文','zh-CN'],['fr','FR','fr']];
+const codes = LANGS.map(l => l[0]);
+let lang = (() => {
+  const q = new URLSearchParams(location.search).get('lang'); if (codes.includes(q)) return q;
+  try { const s = localStorage.getItem('lang'); if (codes.includes(s)) return s; } catch(e){}
+  const n = (navigator.language || 'en').slice(0,2).toLowerCase();
+  return codes.includes(n) ? n : 'en';
+})();
+const t = v => (v && typeof v === 'object' && !Array.isArray(v)) ? (v[lang] ?? v.en) : (v ?? '');
+const $ = id => document.getElementById(id);
+const key = v => typeof v === 'object' ? v.en : v;
+const hoverable = matchMedia('(hover:hover)').matches;
+// placeholder "painting": layered gradients so the wall reads like a collage before photos arrive
+const phBg = (c,i) => `radial-gradient(circle at ${20+(i*37)%60}% ${25+(i*53)%50}%, ${c[1]}cc, transparent 55%), linear-gradient(${(i*47)%180}deg, ${c[0]}, ${c[1]}66)`;
+
+// header / footer
+const EMAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/></svg>';
+document.querySelector('.logo').textContent = NAME;
+$('social').innerHTML = `<a href="mailto:${EMAIL}" aria-label="Email">${EMAIL_ICON}</a>`;
+$('footSocial').innerHTML = `<a href="mailto:${EMAIL}">Email</a>`;
+$('copy').textContent = `© ${NAME} ${new Date().getFullYear()}`;
+document.querySelectorAll('.lang').forEach(g => {
+  g.innerHTML = LANGS.map(([c,l]) => `<button type="button" data-lang="${c}">${l}</button>`).join('');
+  g.onclick = e => { const c = e.target.dataset && e.target.dataset.lang; if (c) setLang(c); };
+});
+
+// ---------- collage layout ----------
+function rng(seed){ return () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+const tiles = ARTWORKS.map((a,i) => {
+  const b = document.createElement('button');
+  b.className = 'tile'; b.type = 'button'; b.dataset.i = i;
+  b.innerHTML = a.image ? `<img src="${a.image}" alt="" loading="lazy">` : `<div class="ph" style="background:${phBg(a.color,i)}"></div>`;
+  b.onclick = () => openLB(i);
+  b.onmouseenter = () => showTip(a); b.onmouseleave = hideTip;
+  b.onfocus = () => showTip(a, b); b.onblur = hideTip;
+  $('wall').appendChild(b);
+  return b;
+});
+function pack(W, base, commit){
+  const R = rng(7);
+  let y = 0, i = 0;
+  while (i < ARTWORKS.length){
+    const target = base * (.7 + R()*.6);                      // varied row heights
+    let row = [], sum = 0;
+    while (i < ARTWORKS.length && (sum * target < W || row.length < 2)){ row.push(i); sum += ARTWORKS[i].ratio || 1; i++; }
+    const last = i >= ARTWORKS.length && sum * target < W * .7;
+    const h = last ? target : W / sum;
+    let x = last ? (W - sum*h)/2 : 0;
+    row.forEach(k => {
+      const w = (ARTWORKS[k].ratio || 1) * h, j1 = R(), j2 = R(), j3 = R(), j4 = R();
+      if (commit){
+        const el = tiles[k];
+        el.style.left = x+'px'; el.style.top = y+'px'; el.style.width = w+'px'; el.style.height = h+'px';
+        el.style.setProperty('--dx', ((j1-.5) * h * .18).toFixed(1)+'px');   // jitter → overlapping collage
+        el.style.setProperty('--dy', ((j2-.5) * h * .22).toFixed(1)+'px');
+        el.style.setProperty('--s', (1.03 + j3*.1).toFixed(3));
+        el.style.zIndex = Math.floor(j4*100);
+      }
+      x += w;
+    });
+    y += h;
+  }
+  return y;
+}
+function layout(){
+  const W = $('wall').clientWidth;
+  // aim for a wall roughly one screen tall (like a moodboard poster)
+  const goal = W < 600 ? W * 1.45 : Math.min(W * .6, innerHeight * .88);
+  let lo = 20, hi = W;
+  for (let n = 0; n < 30; n++){ const mid = (lo+hi)/2; pack(W, mid, false) > goal ? hi = mid : lo = mid; }
+  $('wall').style.height = pack(W, lo, true) + 'px';
+}
+layout();
+requestAnimationFrame(() => $('wall').classList.add('ready'));
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 120); });
+
+// ---------- spotlight + tooltip ----------
+const spot = $('spot'), tip = $('tip');
+if (hoverable){
+  addEventListener('pointermove', e => {
+    spot.style.setProperty('--x', e.clientX+'px'); spot.style.setProperty('--y', e.clientY+'px');
+    tip.style.left = e.clientX+'px'; tip.style.top = e.clientY+'px';
+    const r = $('wall').getBoundingClientRect();
+    spot.classList.toggle('on', e.clientY > r.top && e.clientY < r.bottom && e.clientX > r.left && e.clientX < r.right);
+  });
+  document.addEventListener('pointerleave', () => spot.classList.remove('on'));
+}
+function showTip(a, el){
+  if (!hoverable && !el) return;
+  tip.innerHTML = `<i>${t(a.title)}</i>${a.artist ? ' — '+t(a.artist) : ''}<span>${[t(a.museum), t(a.city)].filter(Boolean).join(' · ')}</span>`;
+  if (el){ const r = el.getBoundingClientRect(); tip.style.left = r.left+'px'; tip.style.top = r.bottom+'px'; }
+  tip.classList.add('on');
+}
+function hideTip(){ tip.classList.remove('on'); }
+
+// ---------- counts ----------
+function renderCounts(){
+  const n = new Set(ARTWORKS.map(a => key(a.museum)+'|'+key(a.city))).size;
+  const c = new Set(ARTWORKS.map(a => key(a.country))).size;
+  $('counts').innerHTML = [[ARTWORKS.length, UI.works],[n, UI.museums],[c, UI.countries]]
+    .map(([v,l]) => `<div><strong>${v}</strong>${t(l)}</div>`).join('');
+}
+
+// ---------- lightbox ----------
+let cur = 0, lastFocus;
+function showLB(i){
+  cur = i; const a = ARTWORKS[i];
+  $('lbStage').innerHTML = a.image ? `<img src="${a.photo || a.image}" alt="${t(a.title)}${a.artist ? ' — '+t(a.artist) : ''}">`
+    : `<div class="ph" style="aspect-ratio:${a.ratio||1};background:${phBg(a.color,i)}"></div>`;
+  $('lbCap').innerHTML = `<div class="t">${t(a.title)}</div><div class="a">${t(a.artist)}${a.year?', '+a.year:''}</div>
+    ${a.note ? `<p class="n">${t(a.note)}</p>` : ''}<div class="m">${[t(a.museum), t(a.city)].filter(Boolean).join(' · ')}</div>`;
+  $('lbCount').textContent = `${i+1} / ${ARTWORKS.length}`;
+}
+function openLB(i){ lastFocus = document.activeElement; hideTip(); showLB(i); $('lb').classList.add('open'); document.body.style.overflow='hidden'; $('lbClose').focus(); }
+function closeLB(){ if (!$('lb').classList.contains('open')) return; $('lb').classList.remove('open'); document.body.style.overflow=''; lastFocus && lastFocus.focus(); }
+const step = d => showLB((cur + d + ARTWORKS.length) % ARTWORKS.length);
+$('lbClose').onclick = closeLB; $('lbPrev').onclick = () => step(-1); $('lbNext').onclick = () => step(1);
+$('lbStage').onclick = e => { if (e.target === $('lbStage')) closeLB(); };
+addEventListener('keydown', e => {
+  if (!$('lb').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLB(); if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1);
+});
+let sx = null;
+$('lb').addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+$('lb').addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); sx = null; });
+
+// ---------- language ----------
+function render(){
+  document.documentElement.lang = LANGS.find(l => l[0]===lang)[2];
+  document.title = t(UI.title_tag);
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(UI[el.dataset.i18n]));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(UI[el.dataset.i18nHtml]));
+  if (!hoverable) document.querySelector('.hint').textContent = t(UI.hintTouch);
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  tiles.forEach((b,i) => b.setAttribute('aria-label', [t(ARTWORKS[i].title), t(ARTWORKS[i].artist)].filter(Boolean).join(' — ')));
+  $('lbClose').textContent = t(UI.close) + ' ✕';
+  renderCounts();
+  if ($('lb').classList.contains('open')) showLB(cur);
+}
+function setLang(c){
+  if (c === lang) return; lang = c;
+  try { localStorage.setItem('lang', c); } catch(e){}
+  const u = new URL(location.href); u.searchParams.set('lang', c); try { history.replaceState(null,'',u); } catch(e){}
+  render();
+}
+render();
+
+// mobile menu
+$('menuBtn').onclick = () => $('drawer').classList.add('open');
+$('closeBtn').onclick = () => $('drawer').classList.remove('open');
+</script>
+</body>
+</html>
