@@ -171,6 +171,7 @@
   .modal.open .sheet{transform:none}
   .sheet .cover{aspect-ratio:2.2}
   .sheet .cover img,.sheet .cover video{width:100%;height:100%;object-fit:cover}
+  .cover-cap{padding:12px clamp(22px,4vw,44px) 0;font-size:12px;letter-spacing:.14em;color:var(--ink-soft)}
   .sheet .body{padding:clamp(22px,4vw,44px)}
   .sheet .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
   .sheet h3{font-size:clamp(26px,3vw,38px);font-weight:400;margin:10px 0 6px}
@@ -393,7 +394,8 @@ const SITE = {
 
   // Work cards — add `image: "work/xxx.jpg"` or `video: "work/xxx.mp4"` to replace the placeholder.
   projects: [
-    { xp: 1, year: 2022, ratio: 1.5, color: ["#d9b48f","#6b4630"],
+    { xp: 1, year: 2022, ratio: 1.5, color: ["#d9b48f","#6b4630"], image: "work/nestle-milk-tea.jpg",
+      caption: { en: "Nestlé 全仕 Milk Tea — bottle and can formats", zh: "雀巢全仕牛乳茶 · 瓶装与罐装", fr: "Thé au lait Nestlé 全仕 — formats bouteille et canette" },
       title: { en: "Nestlé Milk Tea Launch", zh: "雀巢奶茶新品上市", fr: "Lancement d'un thé au lait Nestlé" },
       tag:   { en: "product marketing · packaging", zh: "产品营销 · 包装", fr: "marketing produit · packaging" },
       place: { en: "Beijing", zh: "北京", fr: "Pékin" },
@@ -564,7 +566,8 @@ let lastFocus;
 function openProject(i){
   const p = SITE.projects[i]; lastFocus = document.activeElement;
   $('sheet').innerHTML = `<button class="close" id="mClose">${t(SITE.ui.close)} ✕</button>
-    <div class="cover">${mediaHTML(p, false)}</div>
+    <div class="cover" style="aspect-ratio:${p.image||p.video ? (p.ratio||1.6) : 2.2}">${mediaHTML(p, false)}</div>
+    ${p.caption ? `<p class="cover-cap">${t(p.caption)}</p>` : ''}
     <div class="body">
       <p class="kicker">${p.year} · ${t(p.tag)}</p>
       <h3 id="mTitle">${t(p.title)}</h3>
