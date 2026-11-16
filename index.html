@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naihan Liu — Brand & Marketing</title>
+<meta name="description" content="Naihan Liu — brand and marketing professional based in Paris. Consumer insight, packaging development and visual content.">
+<link rel="canonical" href="https://naihan-liu.github.io/">
+<meta property="og:title" content="Naihan Liu — Brand & Marketing">
+<meta property="og:url" content="https://naihan-liu.github.io/">
+<meta property="og:image" content="https://naihan-liu.github.io/img/portrait.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  /* ============ Design tokens ============ */
+  :root{
+    --paper:#e7eaee;
+    --card:#d8dce1;
+    --ink:#1d1f22;
+    --ink-soft:rgba(29,31,34,.62);
+    --hairline:rgba(29,31,34,.12);
+    --accent:#2f5bff;
+    --edge:max(calc((100vw - 1560px)/2), clamp(16px,2.5vw,64px));
+    --gap:clamp(10px,1vw,14px);
+    --ease:cubic-bezier(.23,1,.32,1);
+    --font:"Futura","Jost","Avenir Next",system-ui,"PingFang SC","Noto Sans SC",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#121417; --card:#1d2024; --ink:#f2f4f7;
+      --ink-soft:rgba(242,244,247,.66); --hairline:rgba(242,244,247,.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#121417; --card:#1d2024; --ink:#f2f4f7;
+    --ink-soft:rgba(242,244,247,.66); --hairline:rgba(242,244,247,.14);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:300;
+       -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+  a{color:inherit;text-decoration:none}
+  img,video{display:block;max-width:100%}
+  section{scroll-margin-top:70px}
+  .skip{position:absolute;left:-999px}
+  .skip:focus{left:16px;top:16px;z-index:99;background:var(--ink);color:var(--paper);padding:8px 12px}
+
+  /* ============ Header ============ */
+  header{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;
+         padding:22px var(--edge);background:linear-gradient(var(--paper) 40%, transparent)}
+  header::before{content:"";position:absolute;inset:0;z-index:-1;backdrop-filter:blur(10px);
+         -webkit-mask:linear-gradient(#000 50%,transparent);mask:linear-gradient(#000 50%,transparent)}
+  .logo{font-size:15px;letter-spacing:.12em}
+  nav{display:flex;align-items:center;gap:clamp(16px,3vw,48px)}
+  .links{display:flex;gap:clamp(14px,1.8vw,26px);font-size:13px;letter-spacing:.12em}
+  .links a{color:var(--ink-soft);transition:color .3s}
+  .links a:hover,.links a.active{color:var(--ink);font-weight:400}
+  .social{display:flex;gap:22px}
+  .social a{color:var(--ink-soft);display:grid;place-items:center;transition:color .3s,transform .3s var(--ease)}
+  .social a:hover{color:var(--ink);transform:translateY(-2px)}
+  .social svg{width:14px;height:14px}
+  .theme-btn{background:none;border:0;color:var(--ink-soft);cursor:pointer;display:grid;place-items:center}
+  .theme-btn:hover{color:var(--ink)}
+  .theme-btn svg{width:15px;height:15px}
+
+  /* ============ Hero ============ */
+  .hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+        padding:110px var(--edge) 90px;position:relative;text-align:center}
+  .tagline{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:clamp(18px,3vw,36px);line-height:1.8}
+  .stage{position:relative;width:100%;display:grid;place-items:center}
+  .big-name{position:absolute;top:-.12em;left:50%;transform:translateX(-50%);
+            font-size:clamp(56px,10vw,150px);font-weight:500;letter-spacing:.05em;white-space:nowrap;
+            color:var(--accent);filter:blur(7px);opacity:.75;pointer-events:none;
+            animation:breathe 7s ease-in-out infinite}
+  @keyframes breathe{50%{filter:blur(11px);opacity:.55}}
+  .carousel{position:relative;width:min(460px,72vw);aspect-ratio:1.18;margin-top:clamp(40px,6vw,70px)}
+  .slide{position:absolute;inset:0;border-radius:6px;overflow:hidden;opacity:0;
+         transform:translateY(14px) rotate(-1.5deg) scale(.97);
+         transition:opacity .9s var(--ease),transform .9s var(--ease);
+         box-shadow:0 30px 60px -20px rgba(20,30,60,.35),0 8px 18px -8px rgba(20,30,60,.25)}
+  .slide.on{opacity:1;transform:none}
+  .slide img{width:100%;height:100%;object-fit:cover}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);background:none;border:0;cursor:pointer;
+         color:var(--ink);opacity:.7;padding:20px;transition:opacity .3s,transform .4s var(--ease)}
+  .arrow:hover{opacity:1}
+  .arrow svg{width:14px;height:42px}
+  .prev{left:clamp(-140px,-14vw,-40px)} .prev:hover{transform:translate(-4px,-50%)}
+  .next{right:clamp(-140px,-14vw,-40px)} .next:hover{transform:translate(4px,-50%)}
+  .caption{margin-top:34px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);min-height:1em}
+  .scroll-cue{position:absolute;bottom:42px;left:50%;transform:translateX(-50%);color:var(--ink-soft);animation:cue 2.4s ease-in-out infinite}
+  .scroll-cue svg{width:32px;height:14px}
+  @keyframes cue{50%{transform:translate(-50%,6px)}}
+
+  /* placeholder slides / cards (remove once real photos are added) */
+  .ph{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,36px);color:#fff;text-align:left}
+  .ph b{font-weight:400;font-size:clamp(26px,3.4vw,52px);letter-spacing:.02em;line-height:1}
+  .ph i{font-style:normal;font-size:12px;letter-spacing:.24em;text-transform:uppercase;opacity:.75;margin-bottom:10px}
+  .ph .stat{position:absolute;top:clamp(18px,3vw,36px);right:clamp(18px,3vw,36px);text-align:right;font-size:12px;letter-spacing:.14em;opacity:.85}
+  .ph .stat strong{display:block;font-weight:400;font-size:clamp(22px,2.6vw,38px);letter-spacing:.02em}
+  .slide .ph{justify-content:center;align-items:center;text-align:center}
+  .slide .ph b{font-size:clamp(34px,5vw,60px);letter-spacing:.12em;text-transform:uppercase;font-weight:300}
+
+  /* ============ Sections ============ */
+  .section{padding:40px var(--edge) 110px}
+  .label{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:22px}
+
+  /* Projects grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
+  .col{display:flex;flex-direction:column;gap:var(--gap)}
+  .card{position:relative;display:block;overflow:hidden;border-radius:3px;background:var(--card);cursor:pointer;
+        border:0;font:inherit;text-align:left;width:100%;color:inherit;
+        opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .card.in{opacity:1;transform:none}
+  .card .media{width:100%;transition:transform 1.2s var(--ease)}
+  .card .media img,.card .media video{width:100%;height:100%;object-fit:cover}
+  .card:hover .media{transform:scale(1.03)}
+  .card::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.5));opacity:0;transition:opacity .5s}
+  .card:hover::after,.card:focus-visible::after{opacity:1}
+  .meta{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;justify-content:space-between;align-items:end;gap:12px;
+        padding:16px 16px 14px;color:#fff;font-size:14px;letter-spacing:.04em;opacity:0;transform:translateY(8px);
+        transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .meta small{font-size:13px;opacity:.85}
+  .card:hover .meta,.card:focus-visible .meta{opacity:1;transform:none}
+  .card:hover .ph b,.card:hover .ph i{opacity:0}
+  .ph b,.ph i{transition:opacity .4s}
+
+  /* Experience list */
+  .xp{border-top:1px solid var(--hairline)}
+  .xp-row{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:24px;align-items:baseline;
+          padding:22px 0;border-bottom:1px solid var(--hairline);transition:padding .5s var(--ease)}
+  .xp-row:hover{padding-left:10px}
+  .xp-date{font-size:13px;letter-spacing:.08em;color:var(--ink-soft)}
+  .xp-co{font-size:clamp(20px,2vw,26px);font-weight:400;letter-spacing:.02em}
+  .xp-role{display:block;font-size:15px;color:var(--ink-soft);margin-top:4px}
+  .xp-loc{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+
+  /* About */
+  .about{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:clamp(24px,5vw,80px);align-items:start}
+  .portrait{width:100%;max-width:380px;aspect-ratio:4/5;object-fit:cover;border-radius:4px;
+            filter:grayscale(.15);box-shadow:0 30px 60px -24px rgba(20,30,60,.35)}
+  .about h2{font-size:clamp(30px,3.6vw,48px);font-weight:400;letter-spacing:.02em;line-height:1.15;margin-bottom:24px}
+  .about p{font-size:17px;line-height:1.75;color:var(--ink-soft);max-width:62ch}
+  .about p+p{margin-top:1em}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px 40px;margin-top:40px;padding-top:32px;border-top:1px solid var(--hairline)}
+  .facts h3{font-size:12px;font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+  .facts li{list-style:none;font-size:15px;line-height:1.7}
+  .facts li span{color:var(--ink-soft)}
+
+  /* Contact */
+  .contact{text-align:center;padding:120px var(--edge) 140px}
+  .avail{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+  .avail::before{content:"";width:7px;height:7px;border-radius:50%;background:#2fbf71;box-shadow:0 0 0 0 rgba(47,191,113,.6);animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(47,191,113,0)}100%{box-shadow:0 0 0 0 rgba(47,191,113,0)}}
+  .contact h2{font-size:clamp(36px,6vw,84px);font-weight:300;letter-spacing:.03em;margin:22px 0 30px;line-height:1.05}
+  .contact a.mail{font-size:clamp(16px,1.6vw,20px);letter-spacing:.08em;border-bottom:1px solid var(--hairline);padding-bottom:6px;transition:border-color .3s}
+  .contact a.mail:hover{border-color:var(--ink)}
+
+  footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:28px var(--edge) 40px;
+         border-top:1px solid var(--hairline);font-size:12px;letter-spacing:.12em;color:var(--ink-soft)}
+  footer .row{display:flex;gap:22px;flex-wrap:wrap}
+  footer a:hover{color:var(--ink)}
+
+  /* ============ Project modal ============ */
+  .modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;
+         background:rgba(15,17,20,.4);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .4s}
+  .modal.open{opacity:1;pointer-events:auto}
+  .sheet{position:relative;background:var(--paper);color:var(--ink);width:min(820px,100%);max-height:88vh;overflow:auto;border-radius:6px;
+         transform:translateY(24px);transition:transform .6s var(--ease);box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+  .modal.open .sheet{transform:none}
+  .sheet .cover{aspect-ratio:2.2}
+  .sheet .cover img,.sheet .cover video{width:100%;height:100%;object-fit:cover}
+  .sheet .body{padding:clamp(22px,4vw,44px)}
+  .sheet .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+  .sheet h3{font-size:clamp(26px,3vw,38px);font-weight:400;margin:10px 0 6px}
+  .sheet .role{color:var(--ink-soft);font-size:15px}
+  .stats{display:flex;flex-wrap:wrap;gap:16px 40px;margin:26px 0;padding:20px 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .stats div{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .stats strong{display:block;font-size:26px;font-weight:400;letter-spacing:.02em;color:var(--ink);text-transform:none;margin-bottom:2px}
+  .sheet ul{padding-left:18px}
+  .sheet li{font-size:16px;line-height:1.7;color:var(--ink-soft);margin-bottom:8px}
+  .close{position:absolute;top:14px;right:14px;z-index:2;background:var(--paper);border:1px solid var(--hairline);
+         color:var(--ink);border-radius:999px;font:inherit;font-size:12px;letter-spacing:.14em;padding:7px 14px;cursor:pointer}
+
+  /* ============ Mobile ============ */
+  .menu-btn{display:none;background:none;border:0;color:var(--ink);font:inherit;font-size:13px;letter-spacing:.12em;cursor:pointer}
+  .drawer{position:fixed;inset:0;z-index:60;background:var(--paper);display:flex;flex-direction:column;justify-content:center;
+          padding:0 32px;gap:22px;font-size:32px;letter-spacing:.06em;opacity:0;pointer-events:none;transition:opacity .4s}
+  .drawer.open{opacity:1;pointer-events:auto}
+  .drawer > button{position:absolute;top:22px;right:20px;background:none;border:0;color:var(--ink);font:inherit;font-size:13px;letter-spacing:.12em}
+  @media (max-width:760px){
+    .links,.social{display:none}
+    .menu-btn{display:block}
+    .grid{grid-template-columns:1fr}
+    .about{grid-template-columns:1fr}
+    .portrait{max-width:260px}
+    .prev{left:-34px}.next{right:-34px}
+    .meta{opacity:1;transform:none}
+    .card::after{opacity:1}
+    .card .ph b,.card .ph i{opacity:0}
+    .xp-row{grid-template-columns:1fr;gap:6px}
+    .xp-loc{order:-1}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card{opacity:1;transform:none}}
+  /* ============ Language switch ============ */
+  .lang{display:flex;gap:2px;font-size:12px;letter-spacing:.08em}
+  .lang button{background:none;border:0;font:inherit;color:var(--ink-soft);cursor:pointer;padding:4px 6px;border-radius:999px;transition:color .3s,background .3s}
+  .lang button:hover{color:var(--ink)}
+  .lang button[aria-pressed="true"]{color:var(--ink);background:var(--hairline)}
+  .drawer .lang{font-size:15px;margin-top:20px}
+  :lang(zh) .about h2{letter-spacing:.04em;line-height:1.35}
+  :lang(zh) .about p,:lang(zh) .sheet li{line-height:1.9}
+  :lang(zh) .contact h2{letter-spacing:.08em;line-height:1.3}
+  @media (max-width:760px){ header .lang{display:none} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip"></a>
+
+<header>
+  <a class="logo" href="#top"></a>
+  <nav>
+    <div class="links">
+      <a href="#work" class="active" data-i18n="work"></a>
+      <a href="#experience" data-i18n="experience"></a>
+      <a href="#about" data-i18n="about"></a>
+      <a href="#contact" data-i18n="contact"></a>
+    </div>
+    <div class="social" id="social"></div>
+    <div class="lang" role="group" aria-label="Language"></div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle light / dark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg>
+    </button>
+    <button class="menu-btn" id="menuBtn" data-i18n="menu"></button>
+  </nav>
+</header>
+
+<div class="drawer" id="drawer">
+  <button id="closeBtn" data-i18n="close"></button>
+  <a href="#work" data-i18n="work"></a><a href="#experience" data-i18n="experience"></a><a href="#about" data-i18n="about"></a><a href="#contact" data-i18n="contact"></a>
+  <div class="lang" role="group" aria-label="Language"></div>
+</div>
+
+<main id="main">
+  <section class="hero" id="top">
+    <p class="tagline" id="tagline"></p>
+    <div class="stage">
+      <div class="big-name" id="bigName"></div>
+      <div class="carousel" id="carousel">
+        <button class="arrow prev" id="prev" aria-label="Previous"><svg viewBox="0 0 14 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 1 2 21l10 20"/></svg></button>
+        <button class="arrow next" id="next" aria-label="Next"><svg viewBox="0 0 14 42" fill="none" stroke="currentColor" stroke-width="1.2"><path d="m2 1 10 20L2 41"/></svg></button>
+      </div>
+    </div>
+    <p class="caption" id="caption"></p>
+    <a class="scroll-cue" href="#work" aria-label="Scroll down"><svg viewBox="0 0 32 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 2l15 7 15-7M1 7l15 7 15-7"/></svg></a>
+  </section>
+
+  <section class="section" id="work">
+    <p class="label" data-i18n="workLabel"></p>
+    <div class="grid"><div class="col" id="colA"></div><div class="col" id="colB"></div></div>
+  </section>
+
+  <section class="section" id="experience">
+    <p class="label" data-i18n="xpLabel"></p>
+    <div class="xp" id="xp"></div>
+  </section>
+
+  <section class="section" id="about">
+    <p class="label" data-i18n="aboutLabel"></p>
+    <div class="about">
+      <img class="portrait" id="portrait" alt="">
+      <div>
+        <h2 id="aboutTitle"></h2>
+        <div id="aboutText"></div>
+        <div class="facts" id="facts"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <span class="avail" data-i18n="available"></span>
+    <h2 data-i18n-html="contactTitle"></h2>
+    <a class="mail" id="mailLink"></a>
+  </section>
+</main>
+
+<footer>
+  <span id="copy"></span>
+  <div class="row" id="footSocial"></div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+/* =====================================================================
+   ✏️  CONTENT — edit everything here.
+   Any text can be a plain string (same in every language)
+   or { en: "...", zh: "...", fr: "..." }.
+   ===================================================================== */
+const SITE = {
+  name: "Naihan Liu",
+  email: "naihannn.liu@gmail.com",
+  portrait: "img/portrait.jpg",
+  socials: [               // add: { type:"linkedin", url:"https://..." }, instagram, x, github
+  ],
+
+  ui: {
+    title:       { en: "Naihan Liu — Brand & Marketing", zh: "Naihan Liu — 品牌与市场营销", fr: "Naihan Liu — Marque & Marketing" },
+    description: { en: "Naihan Liu — brand and marketing professional based in Paris. Consumer insight, packaging development and visual content.",
+                   zh: "Naihan Liu — 常驻巴黎的品牌与市场营销从业者。消费者洞察、包装开发与视觉内容。",
+                   fr: "Naihan Liu — professionnelle du marketing et de la marque basée à Paris. Insights consommateurs, packaging et contenu visuel." },
+    skip:        { en: "Skip to content", zh: "跳到正文", fr: "Aller au contenu" },
+    work:        { en: "work", zh: "作品", fr: "projets" },
+    experience:  { en: "experience", zh: "经历", fr: "parcours" },
+    about:       { en: "about", zh: "关于", fr: "à propos" },
+    contact:     { en: "contact", zh: "联系", fr: "contact" },
+    menu:        { en: "menu", zh: "菜单", fr: "menu" },
+    close:       { en: "close", zh: "关闭", fr: "fermer" },
+    workLabel:   { en: "Selected Work", zh: "精选作品", fr: "Projets choisis" },
+    xpLabel:     { en: "Experience", zh: "工作经历", fr: "Expérience" },
+    aboutLabel:  { en: "About", zh: "关于我", fr: "À propos" },
+    tagline:     { en: "Brand / Marketing / Visual Storytelling · Paris", zh: "品牌 / 市场营销 / 视觉叙事 · 巴黎", fr: "Marque / Marketing / Narration visuelle · Paris" },
+    available:   { en: "Available from December 2026", zh: "2026 年 12 月起可入职", fr: "Disponible à partir de décembre 2026" },
+    contactTitle:{ en: "Let's build a brand<br>people remember.", zh: "一起打造<br>让人记住的品牌。", fr: "Construisons une marque<br>dont on se souvient." },
+    portraitAlt: { en: "Portrait of Naihan Liu", zh: "Naihan Liu 的照片", fr: "Portrait de Naihan Liu" },
+  },
+
+  // Hero carousel — the cities that shaped me. Replace `image` with your own photos.
+  hero: [
+    { caption: { en: "Paris",   zh: "巴黎", fr: "Paris" },  image: "", color: ["#9fb4ff","#3456e8"] },
+    { caption: { en: "Rome",    zh: "罗马", fr: "Rome" },   image: "", color: ["#f3c7a8","#c0583c"] },
+    { caption: { en: "Beijing", zh: "北京", fr: "Pékin" },  image: "", color: ["#f0b3a8","#a52a2a"] },
+    { caption: { en: "Sydney",  zh: "悉尼", fr: "Sydney" }, image: "", color: ["#a9dcf0","#1f6f9c"] },
+  ],
+
+  about: {
+    title: { en: "Hi, I'm Naihan — I turn consumer insight into brands people choose.",
+             zh: "你好，我是 Naihan —— 我把消费者洞察变成人们愿意选择的品牌。",
+             fr: "Bonjour, je suis Naihan — je transforme l'insight consommateur en marques que l'on choisit." },
+    paragraphs: [
+      { en: "I'm a marketing professional with a background in brand and FMCG, currently completing an MSc in International Marketing and Business Development at SKEMA Business School in Paris.",
+        zh: "我是一名拥有品牌与快消品（FMCG）背景的市场营销从业者，目前在巴黎 SKEMA 商学院攻读国际市场营销与业务拓展硕士。",
+        fr: "Professionnelle du marketing issue de la marque et des produits de grande consommation (FMCG), je termine actuellement un MSc International Marketing and Business Development à SKEMA Business School, à Paris." },
+      { en: "At Nestlé I helped take a new milk tea line from research to launch — benchmarking competitors, synthesising consumer reviews, and working through packaging with a design agency. I care just as much about how a brand looks as how it sells: I shoot my own photography, style, and build visual identities from scratch.",
+        zh: "在雀巢，我参与了一条新奶茶产品线从调研到上市的全过程：竞品对标、梳理消费者评价、与设计公司反复打磨包装。我同样在意品牌“看起来”是什么样子：我自己拍摄、做造型，也从零搭建过完整的视觉形象。",
+        fr: "Chez Nestlé, j'ai contribué au lancement d'une nouvelle gamme de thé au lait, de l'étude de marché à la mise en rayon : benchmark concurrentiel, analyse des avis consommateurs et développement du packaging avec une agence de design. L'image d'une marque compte autant pour moi que ses ventes : je réalise mes propres photos, je fais du stylisme et je construis des identités visuelles de A à Z." },
+      { en: "I'm now looking for brand management and brand strategy roles in Paris.",
+        zh: "我目前正在寻找巴黎的品牌管理与品牌策略相关职位。",
+        fr: "Je recherche aujourd'hui un poste en brand management ou en stratégie de marque à Paris." },
+    ]
+  },
+
+  facts: [
+    { title: { en: "Education", zh: "教育背景", fr: "Formation" }, items: [
+      { en: "MSc International Marketing & Business Development <span>— SKEMA Business School, Paris · 2025–2026</span>",
+        zh: "国际市场营销与业务拓展 硕士 <span>— SKEMA 商学院，巴黎 · 2025–2026</span>",
+        fr: "MSc International Marketing & Business Development <span>— SKEMA Business School, Paris · 2025–2026</span>" },
+      { en: "Bachelor of Business in Marketing <span>— University of Technology Sydney · 2022</span>",
+        zh: "商学学士（市场营销） <span>— 悉尼科技大学 · 2022</span>",
+        fr: "Bachelor of Business, spécialité Marketing <span>— University of Technology Sydney · 2022</span>" } ] },
+    { title: { en: "Skills", zh: "技能", fr: "Compétences" }, items: [
+      { en: "Consumer insights", zh: "消费者洞察", fr: "Insights consommateurs" },
+      { en: "Packaging development", zh: "包装开发", fr: "Développement packaging" },
+      "Power BI · Tableau · Canva",
+      { en: "Photography & styling", zh: "摄影与造型", fr: "Photographie & stylisme" } ] },
+    { title: { en: "Languages", zh: "语言", fr: "Langues" }, items: [
+      { en: "Mandarin <span>— native</span>", zh: "中文 <span>— 母语</span>", fr: "Mandarin <span>— langue maternelle</span>" },
+      { en: "English <span>— fluent</span>",  zh: "英语 <span>— 流利</span>", fr: "Anglais <span>— courant</span>" },
+      { en: "French <span>— learning</span>", zh: "法语 <span>— 学习中</span>", fr: "Français <span>— en apprentissage</span>" } ] },
+  ],
+
+  experience: [
+    { date: { en: "Apr 2024 – Oct 2024", zh: "2024.04 – 2024.10", fr: "avr. 2024 – oct. 2024" },
+      company: "Airbnb",
+      role: { en: "Short-term Rental Manager (Revenue-share partnership)", zh: "短租房源运营经理（收益分成合作）", fr: "Gestionnaire de location courte durée (partenariat à partage de revenus)" },
+      loc: { en: "Rome, IT", zh: "意大利 · 罗马", fr: "Rome, Italie" } },
+    { date: { en: "May 2022 – Jan 2023", zh: "2022.05 – 2023.01", fr: "mai 2022 – janv. 2023" },
+      company: { en: "Nestlé (China)", zh: "雀巢（中国）", fr: "Nestlé (Chine)" },
+      role: { en: "Marketing Intern, Dairy Division", zh: "乳品事业部 市场实习生", fr: "Stagiaire marketing, division Produits laitiers" },
+      loc: { en: "Beijing, CN", zh: "中国 · 北京", fr: "Pékin, Chine" } },
+    { date: { en: "May 2021 – Sep 2021", zh: "2021.05 – 2021.09", fr: "mai 2021 – sept. 2021" },
+      company: { en: "SegmentFault", zh: "SegmentFault 思否", fr: "SegmentFault" },
+      role: { en: "Business Operations Intern", zh: "商务运营实习生", fr: "Stagiaire opérations commerciales" },
+      loc: { en: "Beijing, CN", zh: "中国 · 北京", fr: "Pékin, Chine" } },
+    { date: { en: "Sep 2018 – Jun 2019", zh: "2018.09 – 2019.06", fr: "sept. 2018 – juin 2019" },
+      company: "Republic Boutique",
+      role: { en: "Sales Intern", zh: "销售实习生", fr: "Stagiaire vente" },
+      loc: { en: "Sydney, AU", zh: "澳大利亚 · 悉尼", fr: "Sydney, Australie" } },
+  ],
+
+  // Work cards — add `image: "work/xxx.jpg"` or `video: "work/xxx.mp4"` to replace the placeholder.
+  projects: [
+    { xp: 1, year: 2022, ratio: 1.5, color: ["#d9b48f","#6b4630"],
+      title: { en: "Nestlé Milk Tea Launch", zh: "雀巢奶茶新品上市", fr: "Lancement d'un thé au lait Nestlé" },
+      tag:   { en: "product marketing · packaging", zh: "产品营销 · 包装", fr: "marketing produit · packaging" },
+      place: { en: "Beijing", zh: "北京", fr: "Pékin" },
+      stat:  ["7–8", { en: "products benchmarked", zh: "款竞品对标", fr: "produits analysés" }],
+      stats: [
+        ["7–8", { en: "competitor products benchmarked", zh: "款竞品深度对标", fr: "produits concurrents analysés" }],
+        ["2",   { en: "unlisted competitors found", zh: "个此前未被列入的竞品", fr: "concurrents non répertoriés identifiés" }],
+        [{ en: "Research → Launch", zh: "调研 → 上市", fr: "De l'étude au lancement" }, { en: "full product cycle", zh: "完整产品周期", fr: "cycle produit complet" }] ],
+      points: [
+        { en: "Contributed to the development of a new milk tea product line in China, from research to launch, positioned as a flavour blend benchmarked against popular Assam-style milk teas.",
+          zh: "参与雀巢在中国的一条全新奶茶产品线开发，从调研到上市全程跟进；产品定位为对标市面热门阿萨姆风味奶茶的拼配口味。",
+          fr: "Contribution au développement d'une nouvelle gamme de thé au lait en Chine, de l'étude au lancement, positionnée comme un assemblage aromatique face aux thés au lait de type Assam les plus populaires." },
+        { en: "Conducted competitive research under mentor guidance: identified two previously unlisted competitors, compared 7–8 milk tea products, and consolidated sales, pricing and review data into a report that informed positioning and price range.",
+          zh: "在导师指导下开展竞品调研：发现两个此前未被列入的竞品，对比市面 7–8 款奶茶产品，整合销量、价格与用户评价数据，输出对比报告，为产品定位与价格区间提供依据。",
+          fr: "Étude concurrentielle avec l'accompagnement d'un mentor : identification de deux concurrents jusque-là non répertoriés, comparaison de 7 à 8 produits et consolidation des données de ventes, de prix et d'avis clients dans un rapport qui a orienté le positionnement et la fourchette de prix." },
+        { en: "Synthesised consumer pain points (too sweet, weak tea flavour, overly strong milk taste) and helped adjust formulations; tailored sweetness levels for target groups including children and older adults.",
+          zh: "从用户评价中提炼核心痛点（过甜、茶味淡、奶味过重），协助调整配方以平衡甜度与口感，并针对儿童、老年人等不同人群定制甜度。",
+          fr: "Synthèse des principaux irritants consommateurs (trop sucré, goût de thé trop léger, goût lacté trop prononcé) et participation à l'ajustement des recettes ; niveaux de sucre adaptés à différentes cibles, dont les enfants et les seniors." },
+        { en: "Worked with an external design agency across multiple packaging revision rounds, consolidated cross-functional feedback, proofread all on-pack copy and helped verify ingredient, nutrition and regulatory label information.",
+          zh: "与外部设计公司进行多轮包装修改，汇总跨部门反馈，校对全部包装文案，并协助核对配料、营养成分及法规标签信息。",
+          fr: "Collaboration avec une agence de design externe sur plusieurs cycles de révision du packaging, consolidation des retours transverses, relecture de tous les textes on-pack et vérification des mentions d'ingrédients, nutritionnelles et réglementaires." },
+        { en: "Supported seasonal and regional sales analysis to adapt the product line to climate differences across Chinese cities.",
+          zh: "支持季节性与区域性销售分析，使产品线适配中国不同城市的气候差异。",
+          fr: "Appui aux analyses de ventes saisonnières et régionales pour adapter la gamme aux différences climatiques entre les villes chinoises." } ] },
+
+    { xp: 0, year: 2024, ratio: 1.12, color: ["#efc3a4","#a9472f"],
+      title: { en: "A Home in Rome", zh: "罗马的家", fr: "Une maison à Rome" },
+      tag:   { en: "brand identity · photography", zh: "品牌形象 · 摄影", fr: "identité visuelle · photographie" },
+      place: { en: "Rome", zh: "罗马", fr: "Rome" },
+      stat:  [{ en: "4.9 / 5", zh: "4.9 / 5", fr: "4,9 / 5" }, { en: "guest rating", zh: "房客评分", fr: "note des voyageurs" }],
+      stats: [
+        [{ en: "4.9/5", zh: "4.9/5", fr: "4,9/5" }, { en: "guest rating", zh: "房客评分", fr: "note des voyageurs" }],
+        [{ en: "≤ 2 days", zh: "≤ 2 天", fr: "≤ 2 jours" }, { en: "vacant per month", zh: "每月空置", fr: "de vacance par mois" }],
+        [{ en: "End-to-end", zh: "全流程", fr: "De A à Z" }, { en: "concept to operations", zh: "从设计到运营", fr: "du concept à l'exploitation" }] ],
+      points: [
+        { en: "Led the interior concept for a short-term rental, sourcing furnishings and décor and shooting all listing photography to build a consistent visual identity.",
+          zh: "主导短租房源的室内设计概念，挑选家具与软装，并亲自拍摄全部房源照片，打造统一的视觉形象。",
+          fr: "Direction du concept d'aménagement intérieur d'une location courte durée : sélection du mobilier et de la décoration, et réalisation de toutes les photos de l'annonce pour une identité visuelle cohérente." },
+        { en: "Managed the listing end to end — copywriting, pricing and guest communication.",
+          zh: "全流程管理房源，包括文案撰写、定价与房客沟通。",
+          fr: "Gestion complète de l'annonce : rédaction, tarification et communication avec les voyageurs." },
+        { en: "Maintained near-full occupancy, with no more than 1–2 vacant days per month, and earned a 4.9/5 guest rating.",
+          zh: "保持近乎满房，每月空置不超过 1–2 天，房客评分 4.9/5。",
+          fr: "Taux d'occupation quasi complet (1 à 2 jours de vacance par mois au maximum) et note de 4,9/5." } ] },
+
+    { xp: 2, year: 2021, ratio: 1.78, color: ["#123528","#3f9a6f"],
+      title: { en: "Live Course Campaigns", zh: "直播课程推广", fr: "Campagnes de cours en direct" },
+      tag:   { en: "content · paid promotion", zh: "内容 · 广告投放", fr: "contenu · promotion payante" },
+      place: { en: "Beijing", zh: "北京", fr: "Pékin" },
+      stat:  [{ en: "End-to-end", zh: "全流程", fr: "De A à Z" }, { en: "course production", zh: "课程制作", fr: "production des cours" }],
+      stats: [
+        [{ en: "Live", zh: "直播", fr: "Live" }, { en: "online course production", zh: "在线课程制作", fr: "production de cours en ligne" }],
+        [{ en: "Ads", zh: "投放", fr: "Médias" }, { en: "audience targeting & placement", zh: "人群定位与广告投放", fr: "ciblage et achat média" }] ],
+      points: [
+        { en: "Designed promotional materials and coordinated end-to-end production of live online courses, from instructor scheduling to post-event video editing.",
+          zh: "设计推广物料，统筹直播课程的全流程制作，从讲师排期到课后视频剪辑。",
+          fr: "Conception des supports promotionnels et coordination de bout en bout de la production de cours en ligne en direct, de la planification des intervenants au montage vidéo." },
+        { en: "Defined target audiences and managed ad placement for course promotion, tracking content engagement and page views.",
+          zh: "确定目标受众并管理课程推广的广告投放，跟踪内容互动与页面浏览数据。",
+          fr: "Définition des cibles et gestion de l'achat d'espaces publicitaires pour la promotion des cours, avec suivi de l'engagement et des pages vues." },
+        { en: "Curated and quality-checked articles on the company's community platform.",
+          zh: "为公司社区平台筛选并审核文章。",
+          fr: "Sélection et contrôle qualité des articles publiés sur la plateforme communautaire de l'entreprise." } ] },
+
+    { xp: 3, year: 2019, ratio: 1.6, color: ["#2b2a2e","#9a8d80"],
+      title: { en: "Styling & Lookbook", zh: "造型与搭配", fr: "Stylisme & lookbook" },
+      tag:   { en: "styling · photography", zh: "造型 · 摄影", fr: "stylisme · photographie" },
+      place: { en: "Sydney", zh: "悉尼", fr: "Sydney" },
+      stat:  ["30%+", { en: "conversion rate", zh: "成交转化率", fr: "taux de conversion" }],
+      stats: [
+        ["30%+", { en: "conversion rate", zh: "成交转化率", fr: "taux de conversion" }],
+        ["10+",  { en: "fashion brands styled", zh: "个时尚品牌", fr: "marques de mode" }] ],
+      points: [
+        { en: "Styled complete looks for customers across 10+ fashion brands and photographed styled outfits, achieving a conversion rate above 30%.",
+          zh: "为顾客搭配 10 余个时尚品牌的整套造型并拍摄穿搭照片，成交转化率超过 30%。",
+          fr: "Création de looks complets pour les clients à partir de plus de 10 marques de mode et photographie des tenues, avec un taux de conversion supérieur à 30 %." } ] },
+  ]
+};
+/* ===================================================================== */
+
+const LANGS = [['en','EN','en'],['zh','中文','zh-CN'],['fr','FR','fr']];
+const codes = LANGS.map(l => l[0]);
+let lang = (() => {
+  const q = new URLSearchParams(location.search).get('lang'); if (codes.includes(q)) return q;
+  try { const s = localStorage.getItem('lang'); if (codes.includes(s)) return s; } catch(e){}
+  const n = (navigator.language || 'en').slice(0,2).toLowerCase();
+  return codes.includes(n) ? n : 'en';
+})();
+const t = v => (v && typeof v === 'object' && !Array.isArray(v)) ? (v[lang] ?? v.en) : v;
+
+const ICONS = {
+  instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.3-8.3L2 3h6.3l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>',
+  linkedin:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 9h3v12H3zm6 0h2.9v1.7h.1c.4-.8 1.4-1.9 3.1-1.9 3.2 0 3.9 2.1 3.9 4.9V21h-3v-6.5c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H9z"/></svg>',
+  github:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>',
+  email:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/></svg>'
+};
+const LABEL = {instagram:'Instagram',x:'X',linkedin:'LinkedIn',github:'GitHub',email:'Email'};
+const $ = id => document.getElementById(id);
+const grad = c => `linear-gradient(135deg,${c[0]},${c[1]})`;
+const company = p => t(SITE.experience[p.xp].company);
+const role = p => t(SITE.experience[p.xp].role);
+
+// ---------- static, language-independent bits ----------
+document.querySelector('.logo').textContent = SITE.name;
+$('bigName').textContent = SITE.name;
+$('portrait').src = SITE.portrait;
+$('mailLink').href = 'mailto:' + SITE.email; $('mailLink').textContent = SITE.email + ' →';
+$('copy').textContent = `© ${SITE.name} ${new Date().getFullYear()}`;
+const socials = [...SITE.socials, {type:'email', url:'mailto:'+SITE.email}];
+$('social').innerHTML = socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener" aria-label="${LABEL[s.type]}">${ICONS[s.type]||''}</a>`).join('');
+$('footSocial').innerHTML = socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${LABEL[s.type]}</a>`).join('');
+document.querySelectorAll('.lang').forEach(g => {
+  g.innerHTML = LANGS.map(([c,label]) => `<button type="button" data-lang="${c}">${label}</button>`).join('');
+  g.onclick = e => { const c = e.target.dataset && e.target.dataset.lang; if (c) setLang(c); };
+});
+
+// ---------- carousel ----------
+const car = $('carousel');
+let cur = 0, timer;
+function renderCarousel(){
+  car.querySelectorAll('.slide').forEach(s => s.remove());
+  SITE.hero.forEach((h,i) => {
+    const d = document.createElement('div');
+    d.className = 'slide' + (i===cur ? ' on' : '');
+    d.innerHTML = h.image ? `<img src="${h.image}" alt="${t(h.caption)}">` : `<div class="ph" style="background:${grad(h.color)}"><b>${t(h.caption)}</b></div>`;
+    car.insertBefore(d, $('prev'));
+  });
+  $('caption').textContent = t(SITE.hero[cur].caption);
+}
+function go(n){
+  const slides = car.querySelectorAll('.slide');
+  slides[cur].classList.remove('on');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('on');
+  $('caption').textContent = t(SITE.hero[cur].caption);
+  clearInterval(timer); timer = setInterval(() => go(cur+1), 6000);
+}
+$('prev').onclick = () => go(cur-1);
+$('next').onclick = () => go(cur+1);
+
+// ---------- work cards ----------
+const mediaHTML = (p, withText=true) => p.video ? `<video src="${p.video}" autoplay muted loop playsinline></video>`
+  : p.image ? `<img src="${p.image}" alt="${t(p.title)}" loading="lazy">`
+  : withText ? `<div class="ph" style="background:${grad(p.color)}"><div class="stat"><strong>${t(p.stat[0])}</strong>${t(p.stat[1])}</div><i>${p.year} · ${company(p)}</i><b>${t(p.title)}</b></div>`
+  : `<div style="height:100%;background:${grad(p.color)}"></div>`;
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.12});
+let firstRender = true;
+function renderCards(){
+  const cols = [$('colA'), $('colB')], h = [0,0];
+  cols.forEach(c => c.innerHTML = '');
+  SITE.projects.forEach((p,idx) => {
+    const a = document.createElement('button');
+    a.className = 'card' + (firstRender ? '' : ' in'); a.type = 'button';
+    a.innerHTML = `<div class="media" style="aspect-ratio:${p.ratio||1.6}">${mediaHTML(p)}</div>
+      <div class="meta"><span>${t(p.title)}</span><small>${p.year} · ${t(p.tag)}</small></div>`;
+    a.onclick = () => openProject(idx);
+    const k = h[0] <= h[1] ? 0 : 1;
+    cols[k].appendChild(a); h[k] += 1/(p.ratio||1.6);
+    if (firstRender){ a.style.transitionDelay = (k*90)+'ms'; io.observe(a); }
+  });
+}
+
+// ---------- project modal ----------
+let lastFocus;
+function openProject(i){
+  const p = SITE.projects[i]; lastFocus = document.activeElement;
+  $('sheet').innerHTML = `<button class="close" id="mClose">${t(SITE.ui.close)} ✕</button>
+    <div class="cover">${mediaHTML(p, false)}</div>
+    <div class="body">
+      <p class="kicker">${p.year} · ${t(p.tag)}</p>
+      <h3 id="mTitle">${t(p.title)}</h3>
+      <p class="role">${role(p)} — ${company(p)} · ${t(p.place)}</p>
+      <div class="stats">${p.stats.map(s=>`<div><strong>${t(s[0])}</strong>${t(s[1])}</div>`).join('')}</div>
+      <ul>${p.points.map(x=>`<li>${t(x)}</li>`).join('')}</ul>
+    </div>`;
+  $('modal').classList.add('open'); document.body.style.overflow='hidden';
+  $('mClose').onclick = closeProject; $('mClose').focus();
+}
+function closeProject(){
+  if (!$('modal').classList.contains('open')) return;
+  $('modal').classList.remove('open'); document.body.style.overflow=''; lastFocus && lastFocus.focus();
+}
+$('modal').onclick = e => { if (e.target.id === 'modal') closeProject(); };
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeProject();
+  if (!$('modal').classList.contains('open') && e.target === document.body){ if (e.key==='ArrowLeft') go(cur-1); if (e.key==='ArrowRight') go(cur+1); }
+});
+
+// ---------- render everything for the current language ----------
+function render(){
+  const U = SITE.ui;
+  document.documentElement.lang = LANGS.find(l => l[0]===lang)[2];
+  document.title = t(U.title);
+  document.querySelector('meta[name="description"]').content = t(U.description);
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(U[el.dataset.i18n]));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(U[el.dataset.i18nHtml]));
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  $('tagline').textContent = t(U.tagline);
+  $('portrait').alt = t(U.portraitAlt);
+  $('aboutTitle').textContent = t(SITE.about.title);
+  $('aboutText').innerHTML = SITE.about.paragraphs.map(p => `<p>${t(p)}</p>`).join('');
+  $('facts').innerHTML = SITE.facts.map(f => `<div><h3>${t(f.title)}</h3><ul>${f.items.map(i=>`<li>${t(i)}</li>`).join('')}</ul></div>`).join('');
+  $('xp').innerHTML = SITE.experience.map(x => `<div class="xp-row"><span class="xp-date">${t(x.date)}</span>
+    <div><span class="xp-co">${t(x.company)}</span><span class="xp-role">${t(x.role)}</span></div><span class="xp-loc">${t(x.loc)}</span></div>`).join('');
+  renderCarousel();
+  renderCards();
+  firstRender = false;
+}
+function setLang(c){
+  if (c === lang) return;
+  lang = c;
+  try { localStorage.setItem('lang', c); } catch(e){}
+  const u = new URL(location.href); u.searchParams.set('lang', c);
+  try { history.replaceState(null, '', u); } catch(e){}
+  closeProject();
+  render();
+}
+render();
+go(0);
+
+// ---------- active nav link ----------
+const navLinks = document.querySelectorAll('.links a');
+const so = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
+}), {rootMargin:'-45% 0px -50% 0px'});
+['work','experience','about','contact'].forEach(id => so.observe($(id)));
+
+// ---------- theme toggle ----------
+$('themeBtn').onclick = () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  r.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', r.dataset.theme); } catch(e){}
+};
+try { const th = localStorage.getItem('theme'); if (th) document.documentElement.dataset.theme = th; } catch(e){}
+
+// ---------- mobile menu ----------
+$('menuBtn').onclick = () => $('drawer').classList.add('open');
+$('closeBtn').onclick = () => $('drawer').classList.remove('open');
+$('drawer').querySelectorAll('a').forEach(a => a.onclick = () => $('drawer').classList.remove('open'));
+</script>
+</body>
+</html>
